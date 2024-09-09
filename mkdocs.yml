@@ -1,0 +1,6 @@
+site_name: My Motivations
+nav:
+  - Home: index.md
+  - My documentation: about.md
+theme:
+  name: material
