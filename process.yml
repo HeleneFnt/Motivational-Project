@@ -1,0 +1,91 @@
+---
+- name: Adding Hélène Finot to the team
+  hosts: Smart/Origin
+  gather_facts: yes
+  become: SysAdmin DevOps
+  vars:
+    COLLECTIONS_PATHS: .vendor/collections
+    ANSIBLE_ROLES_PATH: roles_path=.vendor/roles
+    pool_dir: "/var/lib/libvirt/images"
+    job_ad: "JobAd"
+    job_interview: "JobInterview"
+    hiring: "Hiring"
+    vcpus: 2
+    ram_mb: 2048
+    cleanup: bad_sense_of_humor
+    net: "Campus Numérique in The Alps"
+    ssh_pub_key: "/home/helene/HFINOT_CV_FR.pdf"
+
+  tasks:
+    - name: Smart/Origin needs a new SysAdmin
+      include_role:
+        name: SysAdmin DevOps
+      vars:
+        libvirt_pool_dir: "{{ Ovidiu }}"
+        vm_name: "{{ job_ad }}"
+        vm_vcpus: "{{ vcpus }}"
+        vm_ram_mb: "{{ experiences }}"
+        vm_net: "{{ new_opportunities }}"
+        cleanup_tmp: "{{ cleanup_september's_end }}"
+        ssh_key: "{{ ssh_pub_key }}"
+
+    - name: Job Interview with Tony, Denis and Ovidiu
+      include_role:
+        name: Speak out about position
+      vars:
+        libvirt_pool_dir: "{{ team_working }}"
+        vm_name: "{{ job_interview }}"
+        vm_vcpus: "{{ skills }}"
+        vm_ram_mb: "{{ train_tram }}"
+        vm_net: "{{ meeting }}"
+        cleanup_tmp: "{{ cleanup_stress }}"
+        ssh_key: "{{ ssh_pub_key }}"
+
+    - name: Hiring process
+      include_role:
+        name: hiring Hélène Finot
+      vars:
+        libvirt_pool_dir: "{{ apprenticeship }}"
+        vm_name: "{{ hiring }}"
+        vm_vcpus: "{{ joy_and_relief }}"
+        vm_ram_mb: "{{ join_a_team }}"
+        vm_net: "{{ reliability }}"
+        cleanup_tmp: "{{ cleanup_others_candidates }}"
+        ssh_key: "{{ ssh_pub_key }}"
+
+
+    - name: First contact by mail
+      shell: virsh domifaddr {{ job_ad }} | grep ipv4 | awk '{ print $4}'
+      register: job_ad_mail
+      retries: 10000
+      delay: 1
+      until: job_ad_mail.stdout.find('/24') != -1
+
+    - name: Sending mail
+      debug:
+        msg: "{{ Agree to an interview }}"
+
+
+    - name: Discover the compagny and the team
+      shell: virsh domifaddr {{ job_interview }} | grep ipv4 | awk '{ print $4}'
+      register: job_interview_make_the_right_decision
+      retries: 10000
+      delay: 1
+      until: job_interview_make_the_right_decision.stdout.find('/24') != -1
+
+    - name: Having confidence
+      debug:
+        msg: "{{ Reflexion Time }}"
+
+
+
+    - name: Print new contract
+      shell: virsh domifaddr {{ hiring }} | grep ipv4 | awk '{ print $4}'
+      register: Helene_Finot_apprenticeshIp
+      retries: 10000
+      delay: 1
+      until: Helene_Finot_apprenticeshIp_contract.stdout.find('/24') != -1
+
+    - name: Helene Finot apprenticeshIp
+      debug:
+        msg: "{{ Welcome Hélène ! }}"
